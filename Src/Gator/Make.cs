@@ -1,4 +1,6 @@
+using System;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Gator
 {
@@ -14,9 +16,18 @@ namespace Gator
         public void Execute()
         {
             var dir = App.BaseMigrationsDirectory + @"\" + _args.Name;
+
+            if (Directory.Exists(dir))
+            {
+                throw new GatorException("Warning -- A migration with that name already exists - exiting");
+            }
+            
             Directory.CreateDirectory(dir);
 
-            File.Create(dir + "/version.json");
+            var cfg = new MigrationConfig {created = DateTime.Now, versionNumber = "0.0.0"};
+
+            File.WriteAllText(dir + "/version.json", JsonConvert.SerializeObject(cfg));
+
         }
     }
 }

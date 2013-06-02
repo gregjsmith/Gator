@@ -1,5 +1,6 @@
 using System.IO;
 using NUnit.Framework;
+using Newtonsoft.Json;
 
 namespace Gator.Tests
 {
@@ -23,6 +24,33 @@ namespace Gator.Tests
             var file = File.Exists(App.BaseMigrationsDirectory + "/version1/version.json");
 
             Assert.IsTrue(file);
+        }
+
+        [Test]
+        public void The_Version_json_file_will_hold_metadata_about_the_migration()
+        {
+            Program.Main("make version1".Split(' '));
+
+            var content = File.ReadAllText(App.BaseMigrationsDirectory + "/version1/version.json");
+
+            var cfg = JsonConvert.DeserializeObject<MigrationConfig>(content);
+
+            Assert.IsNotNull(cfg);
+        }
+
+        [Test]
+        public void Will_not_remake_or_overwrite_if_the_migration_already_exists()
+        {
+            Program.Main("make version1".Split(' '));
+
+            var content1 = File.ReadAllText(App.BaseMigrationsDirectory + "/version1/version.json");
+
+            Program.Main("make version1".Split(' '));
+
+            var content2 = File.ReadAllText(App.BaseMigrationsDirectory + "/version1/version.json");
+
+            Assert.AreEqual(content1, content2);
+
         }
         
 

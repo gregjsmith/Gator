@@ -53,6 +53,7 @@
     <Compile Include="Make.cs" />
     <Compile Include="MakeArgs.cs" />
     <Compile Include="MakeHelp.cs" />
+    <Compile Include="MigrationConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
