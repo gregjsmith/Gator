@@ -1,5 +1,4 @@
 using System;
-using ServiceStack.Text;
 
 namespace Gator
 {
@@ -12,7 +11,7 @@ namespace Gator
                 return new Initialize();
             }
 
-            throw new InvalidOperationException("Arguments -- " + args.Join(" ") + " are not valid");
+            throw new InvalidOperationException("Arguments -- " + string.Join(" ", args) + " are not valid");
         }
     }
 }
