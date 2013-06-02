@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Gator.Tests
 {
-    public class When_Initialising_An_Application
+    public class When_Initialising_An_Application : TestEnvironment
     {
 
         [Test]
@@ -73,7 +73,7 @@ namespace Gator.Tests
         public void TearDown()
         {
             File.Delete(App.DbJsonCfgFile);
-            Directory.Delete(App.BaseMigrationsDirectory);
+            HardDelete(App.BaseMigrationsDirectory);
         }
     }
 }

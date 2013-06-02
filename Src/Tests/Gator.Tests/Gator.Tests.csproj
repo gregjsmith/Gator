@@ -41,6 +41,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestEnvironment.cs" />
     <Compile Include="When_handling_arguments.cs" />
     <Compile Include="When_Initialising_An_Application.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

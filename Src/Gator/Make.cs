@@ -13,7 +13,10 @@ namespace Gator
 
         public void Execute()
         {
-            Directory.CreateDirectory(App.BaseMigrationsDirectory + _args.Name);
+            var dir = App.BaseMigrationsDirectory + @"\" + _args.Name;
+            Directory.CreateDirectory(dir);
+
+            File.Create(dir + "/version.json");
         }
     }
 }
