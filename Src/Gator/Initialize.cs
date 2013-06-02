@@ -13,6 +13,7 @@ namespace Gator
             {
                 throw new GatorException("Warning -- Application already exists at this location");
             }
+
             var cfg = new DbConfig { type = "unspecified", connectionString = "", currentVersion = "none" };
 
             File.AppendAllText(App.WorkingDirectory + "database.json",

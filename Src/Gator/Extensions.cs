@@ -6,6 +6,11 @@ namespace Gator
     {
         public static IGatorCommand Handle(this string[] args)
         {
+            if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]))
+            {
+                return new Help();
+            }
+
             if (args.Length == 1 && args[0] == "init")
             {
                 return new Initialize();
