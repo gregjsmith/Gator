@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using ServiceStack.Text;
+using Newtonsoft.Json;
 
 namespace Gator.Tests
 {
@@ -26,7 +26,7 @@ namespace Gator.Tests
 
             var file = File.ReadAllText(App.WorkingDirectory + "database.json");
 
-            var content = JsonSerializer.DeserializeFromString<DbConfig>(file);
+            var content = JsonConvert.DeserializeObject<DbConfig>(file);
 
             Assert.IsNotNull(content);
         }
@@ -38,7 +38,7 @@ namespace Gator.Tests
 
             var file = File.ReadAllText(App.WorkingDirectory + "database.json");
 
-            var content = JsonSerializer.DeserializeFromString<DbConfig>(file);
+            var content = JsonConvert.DeserializeObject<DbConfig>(file);
 
             Assert.AreEqual(content.type, "unspecified");
             Assert.AreEqual(content.currentVersion, "none");
@@ -55,10 +55,35 @@ namespace Gator.Tests
             Assert.IsTrue(dir);
         }
 
+        [Test]
+        public void User_will_get_a_warning_message_if_the_application_has_already_been_initialized()
+        {
+            Program.Main("init".Split());
+
+            var file = File.Exists(App.WorkingDirectory + "database.json");
+
+            Assert.IsTrue(file);
+
+            try
+            {
+                Program.Main("init".Split());
+
+                Assert.Fail();
+
+            }
+            catch (GatorException ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Warning -- Application already exists"));
+            }
+
+
+        }
+
         [TearDown]
         public void TearDown()
         {
             File.Delete(App.WorkingDirectory + "database.json");
+            Directory.Delete(App.WorkingDirectory + "versions");
         }
     }
 }

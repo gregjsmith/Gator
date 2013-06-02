@@ -6,23 +6,17 @@ namespace Gator
     {
         public static void Main(string[] args)
         {
-
-            var cmd = args.Handle();
-
-            cmd.Execute();
-
-                
-            if (args[0] == "init")
+            try
             {
-                
+                var cmd = args.Handle();
+
+                cmd.Execute();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
-    }
-
-
-
-    public class App
-    {
-        public static string WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory + @"\";
     }
 }
