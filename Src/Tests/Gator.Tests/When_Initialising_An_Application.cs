@@ -41,7 +41,7 @@ namespace Gator.Tests
             var content = JsonConvert.DeserializeObject<DbConfig>(file);
 
             Assert.AreEqual(content.type, "unspecified");
-            Assert.AreEqual(content.currentVersion, "none");
+            Assert.AreEqual(content.currentVersion, "0.0.0");
             Assert.AreEqual(content.connectionString, "");
         }
 
@@ -50,7 +50,7 @@ namespace Gator.Tests
         {
             Program.Main("init".Split());
 
-            var dir = Directory.Exists(App.WorkingDirectory + "versions");
+            var dir = Directory.Exists(App.BaseMigrationsDirectory);
 
             Assert.IsTrue(dir);
         }
@@ -73,7 +73,7 @@ namespace Gator.Tests
         public void TearDown()
         {
             File.Delete(App.DbJsonCfgFile);
-            Directory.Delete(App.WorkingDirectory + "versions");
+            Directory.Delete(App.BaseMigrationsDirectory);
         }
     }
 }

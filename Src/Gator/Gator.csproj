@@ -50,6 +50,9 @@
     <Compile Include="Help.cs" />
     <Compile Include="IGatorCommand.cs" />
     <Compile Include="Initialize.cs" />
+    <Compile Include="Make.cs" />
+    <Compile Include="MakeArgs.cs" />
+    <Compile Include="MakeHelp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

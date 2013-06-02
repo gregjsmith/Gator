@@ -11,9 +11,27 @@ namespace Gator
                 return new Help();
             }
 
+
+            if (args.Length == 1 && args[0] == "help")
+            {
+                return new Help();
+            }
+
+
             if (args.Length == 1 && args[0] == "init")
             {
                 return new Initialize();
+            }
+
+
+            if (args.Length == 1 && args[0] == "make")
+            {
+                return new MakeHelp();
+            }
+
+            if (args.Length == 2 && args[0] == "make")
+            {
+                return new Make(args);
             }
 
             throw new InvalidOperationException("Arguments -- " + string.Join(" ", args) + " are not valid");

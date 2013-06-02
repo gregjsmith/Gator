@@ -14,11 +14,11 @@ namespace Gator
                 throw new GatorException("Warning -- Application already exists at this location");
             }
 
-            var cfg = new DbConfig { type = "unspecified", connectionString = "", currentVersion = "none" };
+            var cfg = new DbConfig { type = "unspecified", connectionString = "", currentVersion = "0.0.0" };
 
             File.AppendAllText(App.DbJsonCfgFile, JsonConvert.SerializeObject(cfg, Formatting.Indented, new IsoDateTimeConverter()));
 
-            Directory.CreateDirectory(App.WorkingDirectory + "versions");
+            Directory.CreateDirectory(App.BaseMigrationsDirectory);
 
             Console.WriteLine("Database config file and versions directory created.");
         }
