@@ -12,7 +12,7 @@ namespace Gator.Tests
         {
             Program.Main("init".Split(' '));
 
-            var fs = File.Exists(App.WorkingDirectory + "database.json");
+            var fs = File.Exists(App.DbJsonCfgFile);
 
             Assert.IsTrue(fs);
 
@@ -24,7 +24,7 @@ namespace Gator.Tests
         {
             Program.Main("init".Split(' '));
 
-            var file = File.ReadAllText(App.WorkingDirectory + "database.json");
+            var file = File.ReadAllText(App.DbJsonCfgFile);
 
             var content = JsonConvert.DeserializeObject<DbConfig>(file);
 
@@ -36,7 +36,7 @@ namespace Gator.Tests
         {
             Program.Main("init".Split(' '));
 
-            var file = File.ReadAllText(App.WorkingDirectory + "database.json");
+            var file = File.ReadAllText(App.DbJsonCfgFile);
 
             var content = JsonConvert.DeserializeObject<DbConfig>(file);
 
@@ -56,33 +56,23 @@ namespace Gator.Tests
         }
 
         [Test]
-        public void User_will_get_a_warning_message_if_the_application_has_already_been_initialized()
+        public void Application_not_created_Again_when_it_has_already_been_initialized()
         {
             Program.Main("init".Split());
 
-            var file = File.Exists(App.WorkingDirectory + "database.json");
+            var file1 = File.ReadAllText(App.DbJsonCfgFile);
 
-            Assert.IsTrue(file);
+            Program.Main("init".Split());
 
-            try
-            {
-                Program.Main("init".Split());
+            var file2 = File.ReadAllText(App.DbJsonCfgFile);
 
-                Assert.Fail();
-
-            }
-            catch (GatorException ex)
-            {
-                Assert.IsTrue(ex.Message.Contains("Warning -- Application already exists"));
-            }
-
-
+            Assert.AreEqual(file1, file2);
         }
 
         [TearDown]
         public void TearDown()
         {
-            File.Delete(App.WorkingDirectory + "database.json");
+            File.Delete(App.DbJsonCfgFile);
             Directory.Delete(App.WorkingDirectory + "versions");
         }
     }
