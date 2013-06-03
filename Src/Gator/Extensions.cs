@@ -20,7 +20,7 @@ namespace Gator
 
             if (args.Length == 1 && args[0] == "init")
             {
-                return new Initialize();
+                return CommandFactory.InitialiseCommand();
             }
 
 
@@ -31,7 +31,7 @@ namespace Gator
 
             if (args.Length == 2 && args[0] == "make")
             {
-                return new Make(args);
+                return CommandFactory.MakeCommand(args);
             }
 
             throw new InvalidOperationException("Arguments -- " + string.Join(" ", args) + " are not valid");

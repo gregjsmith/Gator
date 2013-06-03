@@ -1,33 +1,37 @@
 using System;
-using System.IO;
+using Gator.IO;
 using Newtonsoft.Json;
 
 namespace Gator
 {
     public class Make : IGatorCommand
     {
+        private readonly IFile _fs;
+        private readonly IDirectory _ds;
         private MakeArgs _args;
 
-        public Make(string[] args)
+        public Make(IFile fs, IDirectory ds)
         {
-            _args = new MakeArgs(args);
+            _fs = fs;
+            _ds = ds;
         }
+
+        public string[] Args { set {_args = new MakeArgs(value);} }
 
         public void Execute()
         {
             var dir = App.BaseMigrationsDirectory + @"\" + _args.Name;
 
-            if (Directory.Exists(dir))
+            if (_ds.Exists(dir))
             {
                 throw new GatorException("Warning -- A migration with that name already exists - exiting");
             }
             
-            Directory.CreateDirectory(dir);
+            _ds.Create(dir);
 
             var cfg = new MigrationConfig {created = DateTime.Now, versionNumber = "0.0.0"};
 
-            File.WriteAllText(dir + "/version.json", JsonConvert.SerializeObject(cfg));
-
+            _fs.CreateWithContent(dir + "/version.json", JsonConvert.SerializeObject(cfg));
         }
     }
 }
