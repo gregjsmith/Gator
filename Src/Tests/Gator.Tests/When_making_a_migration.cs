@@ -1,63 +1,63 @@
-using System.IO;
+using Gator.Commands;
+using Gator.IO;
+using Moq;
 using NUnit.Framework;
-using Newtonsoft.Json;
 
 namespace Gator.Tests
 {
-    public class When_making_a_migration : TestEnvironment
+    public class When_making_a_migration
     {
+        private Mock<IFile> _fs;
+        private Mock<IDirectory> _ds;
+
+        [SetUp]
+        public void Init()
+        {
+            _fs = new Mock<IFile>();
+            _ds = new Mock<IDirectory>();
+        }
+
         [Test]
         public void A_migration_directory_is_created()
         {
-            Program.Main("make version1".Split(' '));
+            var make = new Make(_fs.Object, _ds.Object) {Args = "make version1".Split(' ')};
 
-            var mgdir = Directory.Exists(App.BaseMigrationsDirectory + "/version1");
+            make.Execute();
 
-            Assert.IsTrue(mgdir);
+            _ds.Verify(m => m.Create(It.Is<string>(s => s.Contains(App.BaseMigrationsDirectory))), Times.Once());
+            _ds.Verify(m => m.Create(It.Is<string>(s => s.Contains("version1"))), Times.Once());
         }
 
         [Test]
         public void A_version_json_file_is_created()
         {
-            Program.Main("make version1".Split(' '));
+            var make = new Make(_fs.Object, _ds.Object) { Args = "make version1".Split(' ') };
 
-            var file = File.Exists(App.BaseMigrationsDirectory + "/version1/version.json");
+            make.Execute();
 
-            Assert.IsTrue(file);
+            _fs.Verify(m => m.CreateWithContent(It.Is<string>(s => s.Contains(App.BaseMigrationsDirectory)), It.IsAny<string>()), Times.Once());
+            _fs.Verify(m => m.CreateWithContent(It.Is<string>(s => s.Contains("version.json")), It.IsAny<string>()), Times.Once());
         }
 
         [Test]
         public void The_Version_json_file_will_hold_metadata_about_the_migration()
         {
-            Program.Main("make version1".Split(' '));
+            var make = new Make(_fs.Object, _ds.Object) { Args = "make version1".Split(' ') };
 
-            var content = File.ReadAllText(App.BaseMigrationsDirectory + "/version1/version.json");
+            make.Execute();
 
-            var cfg = JsonConvert.DeserializeObject<MigrationConfig>(content);
-
-            Assert.IsNotNull(cfg);
+            _fs.Verify(m => m.CreateWithContent(It.IsAny<string>(), It.Is<string>(s => s.Contains(@"""versionNumber"": ""0.0.0"""))), Times.Once());
         }
 
         [Test]
+        [ExpectedException(typeof(GatorException))]
         public void Will_not_remake_or_overwrite_if_the_migration_already_exists()
         {
-            Program.Main("make version1".Split(' '));
+            _ds.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
 
-            var content1 = File.ReadAllText(App.BaseMigrationsDirectory + "/version1/version.json");
+            var make = new Make(_fs.Object, _ds.Object) { Args = "make version1".Split(' ') };
 
-            Program.Main("make version1".Split(' '));
-
-            var content2 = File.ReadAllText(App.BaseMigrationsDirectory + "/version1/version.json");
-
-            Assert.AreEqual(content1, content2);
-
-        }
-        
-
-        [TearDown]
-        public void TearDown()
-        {
-            HardDelete(App.BaseMigrationsDirectory);
+            make.Execute();
         }
     }
 }

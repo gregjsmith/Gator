@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gator.Commands;
 using Gator.IO;
 using Ninject;
 using Ninject.Modules;

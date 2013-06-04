@@ -1,4 +1,5 @@
-﻿using Gator.IO;
+﻿using Gator.Commands;
+using Gator.IO;
 using NUnit.Framework;
 
 namespace Gator.Tests

@@ -1,10 +1,11 @@
-﻿using Gator.IO;
+﻿using Gator.Commands;
+using Gator.IO;
 using Moq;
 using NUnit.Framework;
 
 namespace Gator.Tests
 {
-    public class When_Initialising_An_Application : TestEnvironment
+    public class When_Initialising_An_Application
     {
         private Mock<IFile> _fs;
         private Mock<IDirectory> _ds;
