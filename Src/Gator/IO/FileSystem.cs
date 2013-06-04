@@ -1,4 +1,4 @@
-using System;
+using System.IO;
 
 namespace Gator.IO
 {
@@ -6,22 +6,22 @@ namespace Gator.IO
     {
         public void Create(string path)
         {
-            throw new NotImplementedException();
+            File.Create(path);
         }
 
         public void CreateWithContent(string path, string content)
         {
-            throw new NotImplementedException();
+            File.WriteAllText(path, content);
         }
 
         public void Remove(string path)
         {
-            throw new NotImplementedException();
+            File.Delete(path);
         }
 
         public bool Exists(string path)
         {
-            throw new NotImplementedException();
+            return File.Exists(path);
         }
     }
 }

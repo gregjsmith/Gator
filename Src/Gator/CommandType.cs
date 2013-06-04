@@ -6,7 +6,5 @@ namespace Gator
         public static string Init = "Init";
         public static string MakeHelp = "MakeHelp";
         public static string Make = "Make";
-
     }
-
 }
