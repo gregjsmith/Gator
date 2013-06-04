@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Gator
 {
-    public class Make : IGatorCommand
+    public class Make : IGatorCommand, IArgs
     {
         private readonly IFile _fs;
         private readonly IDirectory _ds;

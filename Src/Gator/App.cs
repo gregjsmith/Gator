@@ -40,7 +40,10 @@ namespace Gator
                 if (!string.IsNullOrWhiteSpace(name))
                 {
                     var svc = _kernel.Get<IGatorCommand>(name: name);
-                    svc.Args = args;
+                    if (svc is IArgs)
+                    {
+                        svc.GetType().GetProperty("Args").SetValue(svc, args);
+                    }
 
                     return svc;
                 }

@@ -5,5 +5,6 @@ namespace Gator
         public string type { get; set; }
         public string connectionString { get; set; }
         public string currentVersion { get; set; }
+        public string lastMigration { get; set; }
     }
 }

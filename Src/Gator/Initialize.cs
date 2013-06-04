@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using Gator.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -24,7 +23,7 @@ namespace Gator
                 throw new GatorException("Warning -- Application already exists at this location");
             }
 
-            var cfg = new DbConfig { type = "unspecified", connectionString = "", currentVersion = "0.0.0" };
+            var cfg = new DbConfig { type = "unspecified", connectionString = "", currentVersion = "0.0.0", lastMigration = "none"};
 
             _fs.CreateWithContent(App.DbJsonCfgFile, JsonConvert.SerializeObject(cfg, Formatting.Indented, new IsoDateTimeConverter()));
 

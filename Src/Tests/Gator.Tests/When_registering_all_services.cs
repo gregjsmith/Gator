@@ -6,7 +6,7 @@ namespace Gator.Tests
     public class When_registering_all_services
     {
         [Test]
-        public void Can_Get_a_Help_type()
+        public void Get_Help()
         {
             var app = new App();
 
@@ -18,7 +18,7 @@ namespace Gator.Tests
         }
 
         [Test]
-        public void Get_FileSystem_Instance()
+        public void Get_FileSystem()
         {
             var app = new App();
 
@@ -30,7 +30,7 @@ namespace Gator.Tests
         }
 
         [Test]
-        public void Get_DirectorySystem_Instance()
+        public void Get_DirectorySystem()
         {
             var app = new App();
 
@@ -42,7 +42,7 @@ namespace Gator.Tests
         }
 
         [Test]
-        public void Can_Get_an_Initialise_type()
+        public void Get_Initialize()
         {
             var app = new App();
 
@@ -51,6 +51,15 @@ namespace Gator.Tests
             var cmd = app.GetService<IGatorCommand>(CommandType.Init);
 
             Assert.IsInstanceOf<Initialize>(cmd);
+        }
+
+        [Test]
+        public void Get_Make()
+        {
+            var app = new App();
+            app.Boot();
+
+            var cmd = app.GetService<IGatorCommand>(CommandType.Make);
         }
     }
 }

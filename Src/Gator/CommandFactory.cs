@@ -6,7 +6,7 @@ namespace Gator
     {
         public static IGatorCommand MakeCommand(string[] args)
         {
-            return new Make(args, new FileSystem(), new DirectorySystem());
+            return new Make(new FileSystem(), new DirectorySystem());
         }
 
         public static IGatorCommand InitialiseCommand()

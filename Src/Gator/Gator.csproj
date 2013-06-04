@@ -49,11 +49,11 @@
     <Compile Include="App.cs" />
     <Compile Include="BasicRules.cs" />
     <Compile Include="CommandFactory.cs" />
+    <Compile Include="IArgs.cs" />
     <Compile Include="InitRules.cs" />
     <Compile Include="ServiceTypes.cs" />
     <Compile Include="DbConfig.cs" />
     <Compile Include="IO\DirectorySystem.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="IO\FileSystem.cs" />
     <Compile Include="GatorException.cs" />
     <Compile Include="Help.cs" />
