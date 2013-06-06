@@ -59,5 +59,26 @@ namespace Gator.Tests
 
             make.Execute();
         }
+
+
+        [Test]
+        public void An_up_sql_file_is_created()
+        {
+            var make = new Make(_fs.Object, _ds.Object) {Args = "make version1".Split(' ')};
+
+            make.Execute();
+
+            _fs.Verify(m => m.Create(App.BaseMigrationsDirectory + @"\version1\up.sql"), Times.Once());
+        }
+
+        [Test]
+        public void A_down_sql_file_is_created()
+        {
+            var make = new Make(_fs.Object, _ds.Object) { Args = "make version1".Split(' ') };
+
+            make.Execute();
+
+            _fs.Verify(m => m.Create(App.BaseMigrationsDirectory + @"\version1\down.sql"), Times.Once());
+        }
     }
 }

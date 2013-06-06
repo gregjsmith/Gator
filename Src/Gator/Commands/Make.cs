@@ -21,7 +21,7 @@ namespace Gator.Commands
 
         public void Execute()
         {
-            var dir = App.BaseMigrationsDirectory + @"\" + _args.Name;
+            var dir = App.BaseMigrationsDirectory + @"\" + _args.Name + @"\";
 
             if (_ds.Exists(dir))
             {
@@ -32,8 +32,12 @@ namespace Gator.Commands
 
             var cfg = new MigrationConfig {created = DateTime.Now, versionNumber = "0.0.0"};
 
-            _fs.CreateWithContent(dir + "/version.json",
+            _fs.CreateWithContent(dir + "version.json",
                                   JsonConvert.SerializeObject(cfg, Formatting.Indented, new IsoDateTimeConverter()));
+
+            _fs.Create(dir + "up.sql");
+            _fs.Create(dir + "down.sql");
+
         }
     }
 }
